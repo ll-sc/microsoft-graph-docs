@@ -2,7 +2,7 @@
 
 > **Important:** APIs under the /beta version in Microsoft Graph are in preview and are subject to change. Use of these APIs in production applications is not supported.
 
-Retrieves changes to objects that the user is subscribed to.
+Retrieves changes to objects that the user is [subscribed](../resources/planner_overview.md#Delta) to.
 
 For a high-level conceptual overview, see [Use delta query to track changes in Microsoft Graph data](../../../concepts/delta_query_overview.md).
 
@@ -18,26 +18,8 @@ The expected usage of Planner's delta queries are as follows:
 4. The caller applies the changes in the returned delta response to the objects in its cache.
 5. The caller follows the current deltaLink to obtain the next deltaLink and changes since the current deltaLink was generated.
 
-## Subscribed objects
-
-Users are subscribed to the following objects:
-
-Tasks:
-That are created by the user
-That are assigned by the user
-That belong to a plan that the user owns
-That belong to a plan where the user is in the plan's SharedWith collection
-
-Plans:
-That the user owns
-Where the user is in the plan's SharedWith collection
-
-Buckets:
-That belong to a plan that the user owns
-That belong to a plan where the user is in the plan's SharedWith collection
-
-
 ## Permissions
+
 One of the following permissions is required to call this API. To learn more, including how to choose permissions, see [Permissions](../../../concepts/permissions_reference.md).
 
 |Permission type      | Permissions (from least to most privileged)              |
@@ -47,7 +29,9 @@ One of the following permissions is required to call this API. To learn more, in
 |Application | Not supported. |
 
 ## HTTP request
+
 <!-- { "blockType": "ignored" } -->
+
 ```http
 GET /me/planner/all/delta
 GET /users/<id>/planner/all/delta
@@ -56,11 +40,13 @@ GET /users/<id>/planner/all/delta
 No additional query parameters (such as `$select`, `$expand`, or `$filter`) are currently supported on Planner's implementation of delta queries.
 
 ## Request headers
+
 | Name      |Description|
 |:----------|:----------|
 | Authorization  | Bearer {token}. Required. |
 
 ## Request body
+
 Do not supply a request body for this method.
 
 ## Response
@@ -74,15 +60,20 @@ If the deltaLink that the caller uses is too old, this endpoint will return HTTP
 This method can return any of the [HTTP status codes](../../../concepts/errors.md). The most common errors that apps should handle for this method are the 403 and 404 responses. For more information about these errors, see [Common Planner error conditions](../resources/planner_overview.md#common-planner-error-conditions).
 
 ## Example
+
 ##### Request
+
 Here is an example of the request.
+
 <!-- {
   "blockType": "request",
-  "name": "get_tasks"
+  "name": "get_delta"
 }-->
+
 ```http
 GET https://graph.microsoft.com/beta/me/planner/all/delta
 ```
+
 ##### Response
 Here is an example of the response. Note: The response object shown here may be truncated for brevity. All of the changed properties will be returned from an actual call.
 <!-- {
@@ -91,6 +82,7 @@ Here is an example of the response. Note: The response object shown here may be 
   "@odata.type": "Collection(microsoft.graph.plannerDelta)",
   "isCollection": true
 } -->
+
 ```http
 HTTP/1.1 200 OK
 content-type: application/json;odata.metadata=minimal;odata.streaming=true;IEEE754Compatible=false;charset=utf-8

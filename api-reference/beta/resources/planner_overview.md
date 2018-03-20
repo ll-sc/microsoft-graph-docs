@@ -57,18 +57,18 @@ Planner's delta query currently only supports querying objects that the user is 
 Users are subscribed to the following objects:
 
 * Tasks:
-* * That are created by the user
-* * That are assigned by the user
-* * That belong to a plan that the user owns
-* * That belong to a plan where the user is in the plan's SharedWith collection
+  * That are created by the user
+  * That are assigned by the user
+  * That belong to a plan that the user owns
+  * That belong to a plan where the user is in the plan's SharedWith collection
 
 * Plans:
-* * That the user owns
-* * Where the user is in the plan's SharedWith collection
+  * That the user owns
+  * Where the user is in the plan's SharedWith collection
 
 * Buckets:
-* * That belong to a plan that the user owns
-* * That belong to a plan where the user is in the plan's SharedWith collection
+  * That belong to a plan that the user owns
+  * That belong to a plan where the user is in the plan's SharedWith collection
 
 ## Planner resource versioning
 
