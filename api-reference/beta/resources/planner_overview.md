@@ -38,8 +38,8 @@ Planner resources are arranged into basic objects and detail objects. Basic obje
 ## Visualization
 Aside from task and plan data, the Planner API also provides resources to provide common visualization of data across clients. Several types of visualization data are available for tasks:
 
-| Tasks are shown as	  | Tasks are ordered with information from|
-|:------------------|:----------|
+| Tasks are shown as | Tasks are ordered with information from|
+|:-------------------|:---------------------------------------|
 |Flat list (tasks in a plan)| `orderHint` property on tasks|
 |Flat list (tasks assigned to a user)| `assigneePriority` property on tasks|
 |Board view with columns for assignees (assigned to task board)| [assignedToTaskBoardTaskFormat](plannerassignedToTaskBoardTaskFormat.md) object|
@@ -50,7 +50,7 @@ The custom columns in the bucket task board are represented by [bucket](plannerb
 
 All the ordering is controlled by the principles identified in [Planner order hints](planner_order_hint_format.md).
 
-## Delta
+## <a name="Delta">Delta</a>
 
 Planner's delta query currently only supports querying objects that the user is subscribed to.
 
