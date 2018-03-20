@@ -18,6 +18,25 @@ The expected usage of Planner's delta queries are as follows:
 4. The caller applies the changes in the returned delta response to the objects in its cache.
 5. The caller follows the current deltaLink to obtain the next deltaLink and changes since the current deltaLink was generated.
 
+## Subscribed objects
+
+Users are subscribed to the following objects:
+
+Tasks:
+That are created by the user
+That are assigned by the user
+That belong to a plan that the user owns
+That belong to a plan where the user is in the plan's SharedWith collection
+
+Plans:
+That the user owns
+Where the user is in the plan's SharedWith collection
+
+Buckets:
+That belong to a plan that the user owns
+That belong to a plan where the user is in the plan's SharedWith collection
+
+
 ## Permissions
 One of the following permissions is required to call this API. To learn more, including how to choose permissions, see [Permissions](../../../concepts/permissions_reference.md).
 
@@ -34,7 +53,7 @@ GET /me/planner/all/delta
 GET /users/<id>/planner/all/delta
 ```
 
-No additional query parameters are currently supported on Planner's implementation of delta queries.
+No additional query parameters (such as `$select`, `$expand`, or `$filter`) are currently supported on Planner's implementation of delta queries.
 
 ## Request headers
 | Name      |Description|

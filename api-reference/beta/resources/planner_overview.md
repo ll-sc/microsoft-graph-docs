@@ -50,6 +50,26 @@ The custom columns in the bucket task board are represented by [bucket](plannerb
 
 All the ordering is controlled by the principles identified in [Planner order hints](planner_order_hint_format.md).
 
+## Delta
+
+Planner's delta query currently only supports querying objects that the user is subscribed to.
+
+Users are subscribed to the following objects:
+
+* Tasks:
+* * That are created by the user
+* * That are assigned by the user
+* * That belong to a plan that the user owns
+* * That belong to a plan where the user is in the plan's SharedWith collection
+
+* Plans:
+* * That the user owns
+* * Where the user is in the plan's SharedWith collection
+
+* Buckets:
+* * That belong to a plan that the user owns
+* * That belong to a plan where the user is in the plan's SharedWith collection
+
 ## Planner resource versioning
 
 Planner versions all resources using etags. These etags are returned with `@odata.etag` property on each resource, and `PATCH` and `DELETE` requests require the last etag known by the client to be specified with `If-Match` header.
