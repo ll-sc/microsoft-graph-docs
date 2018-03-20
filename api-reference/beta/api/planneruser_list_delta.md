@@ -75,7 +75,10 @@ GET https://graph.microsoft.com/beta/me/planner/all/delta
 ```
 
 ##### Response
-Here is an example of the response. Note: The response object shown here may be truncated for brevity. All of the changed properties will be returned from an actual call.
+Here is an example of the response.
+
+Note: The response object shown here may be truncated for brevity. All of the changed properties will be returned from an actual call.
+
 <!-- {
   "blockType": "response",
   "truncated": true,
@@ -125,7 +128,8 @@ preference-applied: odata.track-changes, odata.track-changes
             "@odata.context": "https://graph.microsoft.com/beta/$metadata#planner/tasks/$entity"
         }
     ]
-}```
+}
+```
 
 <!-- uuid: 8fcb5dbc-d5aa-4681-8e31-b001d5168d79
 2015-10-25 14:57:30 UTC -->
