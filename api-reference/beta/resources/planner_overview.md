@@ -50,7 +50,7 @@ The custom columns in the bucket task board are represented by [bucket](plannerb
 
 All the ordering is controlled by the principles identified in [Planner order hints](planner_order_hint_format.md).
 
-## <a name="Delta">Delta</a>
+## <a name="Delta">Tracking Changes (Delta)</a>
 
 Planner's delta query currently only supports querying objects that the user is subscribed to.
 
@@ -69,6 +69,18 @@ Users are subscribed to the following objects:
 * Buckets:
   * That belong to a plan that the user owns
   * That belong to a plan where the user is in the plan's SharedWith collection
+
+### Usage
+
+The caller is expected to have a cache containing subscribed objects.
+
+The expected usage of Planner's delta queries are as follows:
+
+1. The caller initiates a Delta Sync query, obtaining a nextLink and empty collection of changes.
+2. The caller reads all objects that the user is subscribed to, updating its cache.
+3. The caller follows the nextLink provided in the initial Delta Sync query to obtain any changes since the last full read and a new deltaLink.
+4. The caller applies the changes in the returned delta response to the objects in its cache.
+5. The caller follows the new deltaLink to obtain the next deltaLink and changes since the current deltaLink was generated.
 
 ## Planner resource versioning
 

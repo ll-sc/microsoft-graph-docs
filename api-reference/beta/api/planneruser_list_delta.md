@@ -1,4 +1,4 @@
-# List delta
+# Track changes for Planner
 
 > **Important:** APIs under the /beta version in Microsoft Graph are in preview and are subject to change. Use of these APIs in production applications is not supported.
 
@@ -6,17 +6,9 @@ Retrieves changes to objects that the user is [subscribed](../resources/planner_
 
 For a high-level conceptual overview, see [Use delta query to track changes in Microsoft Graph data](../../../concepts/delta_query_overview.md).
 
-## Usage
+This method allows your application to track changes to objects that the user can access from within Planner over time.
 
-The caller is expected to have a cache containing subscribed objects.
-
-The expected usage of Planner's delta queries are as follows:
-
-1. The caller initiates a Delta Sync query, obtaining a deltaLink and empty collection of changes.
-2. The caller reads all objects that the user is subscribed to, updating its cache.
-3. The caller follows the initial deltaLink provided in the initial Delta Sync query to obtain any changes since the full read and a new deltaLink.
-4. The caller applies the changes in the returned delta response to the objects in its cache.
-5. The caller follows the current deltaLink to obtain the next deltaLink and changes since the current deltaLink was generated.
+The return value of this method may contain hetergenous types of objects from Planner.
 
 ## Permissions
 
@@ -81,8 +73,9 @@ Note: The response object shown here may be truncated for brevity. All of the ch
 
 <!-- {
   "blockType": "response",
+  "name": "get_delta",
   "truncated": true,
-  "@odata.type": "Collection(microsoft.graph.plannerDelta)",
+  "@odata.type": "Collection(microsoft.graph.entity)",
   "isCollection": true
 } -->
 
@@ -95,7 +88,7 @@ request-id: 3acb384b-e2d1-4a46-a347-e03bc6428cac
 preference-applied: odata.track-changes, odata.track-changes
 
 {
-    "@odata.context": "https://graph.microsoft.com/beta/$metadata#Collection(plannerDelta)",
+    "@odata.context": "https://graph.microsoft.com/beta/$metadata#Collection(microsoft.graph.plannerDelta)",
     "@odata.deltaLink": "https://graph.microsoft.com/beta/me/planner/all/delta?$deltatoken=jVztGMFnm7qLEQ69FaXzWF5sPEJZU2YxZa32QEvnZTZ4q4C10ThM5uL7bEPm9ysqrxOY0QQIb4Uqmc9DH3rn7pczamvtCipDVJ4FivXh398.J9pSVKpytlutvx03-iBmO4ZM_3qPztOq2T9VIjHoRR0",
     "value": [
         {
