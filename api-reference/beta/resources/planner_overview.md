@@ -52,35 +52,61 @@ All the ordering is controlled by the principles identified in [Planner order hi
 
 ## <a name="Delta">Tracking Changes (Delta)</a>
 
-Planner's delta query currently only supports querying objects that the user is subscribed to.
+Planner's delta query currently only supports querying objects subscribed to by the user.
 
 Users are subscribed to the following objects:
 
 * Tasks:
   * That are created by the user
-  * That are assigned by the user
-  * That belong to a plan that the user owns
-  * That belong to a plan where the user is in the plan's SharedWith collection
+  * That are assigned by the user (/beta/me/planner/tasks)
+  * That belong to a plan that the user owns 
+  * That belong to a plan where the user is in the plan's SharedWith collection (e.g. tasks from plans listed in /beta/me/planner/plans)
 
 * Plans:
-  * That the user owns
-  * Where the user is in the plan's SharedWith collection
+  * Where the user is in the plan's SharedWith collection (/beta/me/planner/plans)
 
 * Buckets:
-  * That belong to a plan that the user owns
   * That belong to a plan where the user is in the plan's SharedWith collection
+
+### <a name="ObjectCache">Populating the object cache for delta queries</a>
+
+A developer looking to use the Planner delta query API should maintain a local cache of objects that the user is interested in observing, in order to apply the changes from the delta response feed.
+
+The delta payload objects that the Planner delta query can currently return will be of the following types:
+
+* [plannerTask](plannertask.md)
+* [plannerTaskDetails](plannertaskdetails.md)
+* [plannerPlan](plannerplan.md)
+* [plannerPlanDetails](plannerpladetails.md)
+* [plannerBucket](plannerbucket.md)
+* [plannerAssignedToTaskBoardTaskFormat](plannerassignedtotaskboardtaskformat.md)
+* [plannerBucketTaskBoardTaskFormat](plannerbuckettaskboardtaskformat.md)
+* [plannerAssignedToTaskBoardTaskFormat](plannerassignedtotaskboardtaskformat.md)
+
+Use the corresponding `GET` methods on the resource to obtain the initial state of objects to be populated into the local cache.
+
+### Differentiating between object creation and object modification
+
+In certain scenarios, the caller may wish to distinguish between object creation and object modification within Planner's delta query feed.
+
+These guidelines can be used to infer object creation:
+
+* The `createdBy` property will only appear on newly created objects.
+* A newly created `plannerTask` object will be followed by its corresponding `plannerTaskDetails` object.
+* A newly created `plannerPlan` object will be followed by its corresponding `plannerPlanDetails` object.
 
 ### Usage
 
-The caller is expected to have a cache containing subscribed objects.
+The caller is expected to have a cache containing objects that the user is interested in.
 
 The expected usage of Planner's delta queries are as follows:
 
 1. The caller initiates a Delta Sync query, obtaining a nextLink and empty collection of changes.
-2. The caller reads all objects that the user is subscribed to, updating its cache.
-3. The caller follows the nextLink provided in the initial Delta Sync query to obtain any changes since the last full read and a new deltaLink.
+2. The caller reads all objects it is interested in, updating its cache.  For more information, see [Populating the object cache for delta queries](#ObjectCache).
+3. The caller follows the nextLink provided in the initial Delta Sync query to obtain a new deltaLink any changes since previous step.
 4. The caller applies the changes in the returned delta response to the objects in its cache.
 5. The caller follows the new deltaLink to obtain the next deltaLink and changes since the current deltaLink was generated.
+6. The caller applies the changes (if any) and waits a short duration before re-executing the previous step and this step.
 
 ## Planner resource versioning
 

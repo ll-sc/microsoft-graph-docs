@@ -33,8 +33,8 @@ No additional query parameters (such as `$select`, `$expand`, or `$filter`) are 
 
 ## Request headers
 
-| Name      |Description|
-|:----------|:----------|
+| Name           |Description                |
+|:---------------|:--------------------------|
 | Authorization  | Bearer {token}. Required. |
 
 ## Request body
