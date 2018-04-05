@@ -51,7 +51,7 @@ The custom columns in the bucket task board are represented by [bucket](plannerb
 
 All the ordering is controlled by the principles identified in [Planner order hints](planner_order_hint_format.md).
 
-## <a name="Delta">Track Changes (Delta)</a>
+## <a name="delta">Track Changes (Delta)</a>
 
 Planner's delta query supports querying objects that the user is subscribed to.
 
@@ -69,7 +69,7 @@ Users are subscribed to the following objects:
 * Buckets:
   * Shared with the user through the plan's **SharedWith** collection
 
-### <a name="ObjectCache">Populate the object cache for delta queries</a>
+### <a name="objectcache">Populate the object cache for delta queries</a>
 
 A developer looking to use the Planner delta query API should maintain a local cache of objects that the user is interested in observing, in order to apply the changes from the delta response feed.
 
@@ -78,7 +78,7 @@ The delta payload objects that the Planner delta query can currently return will
 * [plannerTask](plannertask.md)
 * [plannerTaskDetails](plannertaskdetails.md)
 * [plannerPlan](plannerplan.md)
-* [plannerPlanDetails](plannerpladetails.md)
+* [plannerPlanDetails](plannerplandetails.md)
 * [plannerBucket](plannerbucket.md)
 * [plannerAssignedToTaskBoardTaskFormat](plannerassignedtotaskboardtaskformat.md)
 * [plannerBucketTaskBoardTaskFormat](plannerbuckettaskboardtaskformat.md)
@@ -98,12 +98,12 @@ These guidelines can be used to infer object creation:
 
 ### Usage
 
-The caller is expected to have a cache containing subscribed objects. Read [Populate the object cache for delta queries](#ObjectCache) to learn about filling a local cache of subscribed objects.
+The caller is expected to have a cache containing subscribed objects. Read [Populate the object cache for delta queries](#objectcache) to learn about filling a local cache of subscribed objects.
 
 Planner's delta query call flow is as follows:
 
 1. The caller initiates a Delta Sync query, obtaining a nextLink and empty collection of changes.
-2. The caller must [populate the object cache for delta queries](#ObjectCache) with objects that the user is subscribed to, updating its cache.
+2. The caller must [populate the object cache for delta queries](#objectcache) with objects that the user is subscribed to, updating its cache.
 3. The caller follows the nextLink provided in the initial Delta Sync query to obtain a new deltaLink any changes since previous step.
 4. The caller applies the changes in the returned delta response to the objects in its cache.
 5. The caller follows the new deltaLink to obtain the next deltaLink and changes since the current deltaLink was generated.
