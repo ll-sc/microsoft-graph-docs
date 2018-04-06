@@ -16,7 +16,8 @@ GET /groups/{id}/planner/plans
 
 When [creating a new plan](../api/planner_post_plans.md), give the plan a group owner by setting the `owner` property on a plan object. A plan must be owned by a group. A group can own multiple plans.
 
-> [!NOTE]
+
+> **NOTE:**
 >  The user who is creating the plan must be a member of the group that will own the plan. When you create a new group by using using [Create group](../api/group_post_groups.md), you are not added to the group as a member. After the group is created, add yourself as a member by using [group post members](../api/group_post_members.md).
 
 ## Plans
@@ -51,7 +52,8 @@ The custom columns in the bucket task board are represented by [bucket](plannerb
 
 All the ordering is controlled by the principles identified in [Planner order hints](planner_order_hint_format.md).
 
-## <a name="delta">Track Changes (Delta)</a>
+
+## <a name="delta">Track Changes -Delta- </a>
 
 Planner's delta query supports querying objects that the user is subscribed to.
 
@@ -98,12 +100,13 @@ These guidelines can be used to infer object creation:
 
 ### Usage
 
-The caller is expected to have a cache containing subscribed objects. Read [Populate the object cache for delta queries](#objectcache) to learn about filling a local cache of subscribed objects.
+
+The caller is expected to have a cache containing subscribed objects. Read [Populate the object cache for delta queries](#populate-the-object-cache-for-delta-queries) to learn about filling a local cache of subscribed objects.
 
 Planner's delta query call flow is as follows:
 
 1. The caller initiates a Delta Sync query, obtaining a nextLink and empty collection of changes.
-2. The caller must [populate the object cache for delta queries](#objectcache) with objects that the user is subscribed to, updating its cache.
+2. The caller must [populate the object cache for delta queries](#populate-the-object-cache-for-delta-queries) with objects that the user is subscribed to, updating its cache.
 3. The caller follows the nextLink provided in the initial Delta Sync query to obtain a new deltaLink any changes since previous step.
 4. The caller applies the changes in the returned delta response to the objects in its cache.
 5. The caller follows the new deltaLink to obtain the next deltaLink and changes since the current deltaLink was generated.
