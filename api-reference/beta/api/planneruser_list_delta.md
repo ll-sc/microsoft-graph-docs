@@ -2,13 +2,13 @@
 
 > **Important:** APIs under the /beta version in Microsoft Graph are in preview and are subject to change. Use of these APIs in production applications is not supported.
 
-Retrieves changes to Planner objects which a user is [subscribed](../resources/planner_overview.md#Delta) to.
+Retrieves changes to objects that the user is [subscribed](../resources/planner_overview.md#track-changes--delta--) to.
 
 For a high-level conceptual overview, see [Use delta query to track changes in Microsoft Graph data](../../../concepts/delta_query_overview.md).
 
-This method allows your application to track changes to a user's Planner accessible objects over time.
+This method allows your application to track changes to objects that the user can access from within Planner over time.
 
-The return value of this method is a collection of Planner objects and may contain any of [plannerbucket](../resources/plannerbucket.md), [plannerplan](../resources/plannerplan.md), or [plannertask](../resources/plannertask.md).
+The return value of this method may contain hetergenous types of objects from Planner.
 
 ## Permissions
 
@@ -26,10 +26,10 @@ One of the following permissions is required to call this API. To learn more, in
 
 ```http
 GET /me/planner/all/delta
-GET /users/{id}/planner/all/delta
+GET /users/<id>/planner/all/delta
 ```
 
-No additional query parameters (such as `$select`, `$expand`, or `$filter`) are supported on Planner delta queries.
+No additional query parameters (such as `$select`, `$expand`, or `$filter`) are currently supported on Planner's implementation of delta queries.
 
 ## Request headers
 
@@ -43,14 +43,13 @@ Do not supply a request body for this method.
 
 ## Response
 
-If successful, this method returns a `200 OK` response code, a collection of changes to be applied to objects in the response body, and a Delta Sync link to follow. The following table summarizes the most common delta sync errors that can be returned
+If successful, this method returns a `200 OK` response code and a collection of changes to be applied to objects in the response body, and a Delta Sync link to follow.
 
-|Error code|Description|
-|:-----|:-----|
-|400|The **deltaLink** that the caller uses is malformed|
-|410|The **deltaLink** that the caller uses has expired|
+If the deltaLink that the caller uses is malformed, this endpoint will return HTTP 400.
 
-This method can return any of these [HTTP status codes](../../../concepts/errors.md). For more information about these errors, see [Common Planner error conditions](../resources/planner_overview.md#common-planner-error-conditions).
+If the deltaLink that the caller uses is too old, this endpoint will return HTTP 410.
+
+This method can return any of the [HTTP status codes](../../../concepts/errors.md). The most common errors that apps should handle for this method are the 403 and 404 responses. For more information about these errors, see [Common Planner error conditions](../resources/planner_overview.md#common-planner-error-conditions).
 
 ## Example
 
@@ -68,10 +67,9 @@ GET https://graph.microsoft.com/beta/me/planner/all/delta
 ```
 
 ##### Response
-This response example shows that three [plannertask](../resources/plannertask.md) objects have changed.
+Here is an example of the response.
 
-> [!NOTE]
-> The response object shown here may be truncated for brevity. All of the changed properties will be returned from an actual call.
+Note: The response object shown here may be truncated for brevity. All of the changed properties will be returned from an actual call.
 
 <!-- {
   "blockType": "response",
@@ -83,11 +81,15 @@ This response example shows that three [plannertask](../resources/plannertask.md
 
 ```http
 HTTP/1.1 200 OK
+content-type: application/json;odata.metadata=minimal;odata.streaming=true;IEEE754Compatible=false;charset=utf-8
+cache-control: private
+client-request-id: 3acb384b-e2d1-4a46-a347-e03bc6428cac
+request-id: 3acb384b-e2d1-4a46-a347-e03bc6428cac
 preference-applied: odata.track-changes, odata.track-changes
 
 {
     "@odata.context": "https://graph.microsoft.com/beta/$metadata#Collection(microsoft.graph.plannerDelta)",
-    "@odata.deltaLink": "https://graph.microsoft.com/beta/me/planner/all/delta?$deltatoken=jVztGMFnm7qLEQ69FaXz...3-iBmO4ZM_3qPztOq2T9VIjHoRR0",
+    "@odata.deltaLink": "https://graph.microsoft.com/beta/me/planner/all/delta?$deltatoken=jVztGMFnm7qLEQ69FaXzWF5sPEJZU2YxZa32QEvnZTZ4q4C10ThM5uL7bEPm9ysqrxOY0QQIb4Uqmc9DH3rn7pczamvtCipDVJ4FivXh398.J9pSVKpytlutvx03-iBmO4ZM_3qPztOq2T9VIjHoRR0",
     "value": [
         {
             "@odata.type": "#microsoft.graph.plannerTask",

@@ -16,7 +16,7 @@ GET /groups/{id}/planner/plans
 
 When [creating a new plan](../api/planner_post_plans.md), give the plan a group owner by setting the `owner` property on a plan object. A plan must be owned by a group. A group can own multiple plans.
 
-> [!NOTE]
+> **NOTE:**
 >  The user who is creating the plan must be a member of the group that will own the plan. When you create a new group by using using [Create group](../api/group_post_groups.md), you are not added to the group as a member. After the group is created, add yourself as a member by using [group post members](../api/group_post_members.md).
 
 ## Plans
@@ -51,7 +51,7 @@ The custom columns in the bucket task board are represented by [bucket](plannerb
 
 All the ordering is controlled by the principles identified in [Planner order hints](planner_order_hint_format.md).
 
-## <a name="Delta">Track Changes (Delta)</a>
+## <a name="delta">Track Changes -Delta- </a>
 
 Planner's delta query supports querying objects that the user is subscribed to.
 
@@ -64,14 +64,12 @@ Users are subscribed to the following objects:
   * Shared with the user through the plan's **SharedWith** collection
 
 * Plans:
-  * The user owns
   * Shared with the user through the plan's **SharedWith** collection
 
 * Buckets:
-  * Belong to a plan that the user owns
   * Shared with the user through the plan's **SharedWith** collection
 
-### <a name="ObjectCache">Populate the object cache for delta queries</a>
+### <a name="objectcache">Populate the object cache for delta queries</a>
 
 A developer looking to use the Planner delta query API should maintain a local cache of objects that the user is interested in observing, in order to apply the changes from the delta response feed.
 
@@ -80,7 +78,7 @@ The delta payload objects that the Planner delta query can currently return will
 * [plannerTask](plannertask.md)
 * [plannerTaskDetails](plannertaskdetails.md)
 * [plannerPlan](plannerplan.md)
-* [plannerPlanDetails](plannerpladetails.md)
+* [plannerPlanDetails](plannerplandetails.md)
 * [plannerBucket](plannerbucket.md)
 * [plannerAssignedToTaskBoardTaskFormat](plannerassignedtotaskboardtaskformat.md)
 * [plannerBucketTaskBoardTaskFormat](plannerbuckettaskboardtaskformat.md)
@@ -100,12 +98,12 @@ These guidelines can be used to infer object creation:
 
 ### Usage
 
-The caller is expected to have a cache containing subscribed objects. Read []() to learn about filling a local cache of subscribed objects.
+The caller is expected to have a cache containing subscribed objects. Read [Populate the object cache for delta queries](#populate-the-object-cache-for-delta-queries) to learn about filling a local cache of subscribed objects.
 
 Planner's delta query call flow is as follows:
 
 1. The caller initiates a Delta Sync query, obtaining a nextLink and empty collection of changes.
-2. The caller must [populate the object cache for delta queries](#ObjectCache) with objects that the user is subscribed to, updating its cache.
+2. The caller must [populate the object cache for delta queries](#populate-the-object-cache-for-delta-queries) with objects that the user is subscribed to, updating its cache.
 3. The caller follows the nextLink provided in the initial Delta Sync query to obtain a new deltaLink any changes since previous step.
 4. The caller applies the changes in the returned delta response to the objects in its cache.
 5. The caller follows the new deltaLink to obtain the next deltaLink and changes since the current deltaLink was generated.
@@ -132,15 +130,15 @@ There are several common cases where the `POST` and `PATCH` requests can get a 4
 **Example**
 
 [plannerAssignments](plannerAssignments.md) properties with complex values need to declare `@odata.type` property with value `microsoft.graph.plannerAssignment`.
-* Order hint values do not have the [correct format](planner_order_hint_format.md). 
-   
+* Order hint values do not have the [correct format](planner_order_hint_format.md).
+
    For example, an order hint value is being set directly to the value returned to the client.
-* The data is logically inconsistent. 
+* The data is logically inconsistent.
 
    For example, start date of task is later than due date of the task.
 
 ### Planner error status codes
-In addition to general error status codes, Planner indicates special error conditions by returning the following codes. 
+In addition to general error status codes, Planner indicates special error conditions by returning the following codes.
 
 #### 403 Forbidden
 
@@ -164,7 +162,7 @@ The possible values for the limit types include:
 |MaximumRecentPlansForUser| The `recentPlanReferences` property on the [plannerUser](plannerUser.md) resource contains too many values.|
 |MaximumContextsOnPlan| The `contexts` proeprty on the [plannerPlan](plannerPlan.md) resource contains too many values.|
 
-#### 412 Precondition Failed 
+#### 412 Precondition Failed
 
 All `POST`, `PATCH` and `DELETE` requests in Planner API require `If-Match` header to be specified with the last etag value seen of the resource that is subject to the request.
 Additionally, 412 status code can be returned if the etag value specified in the request no longer matches a version of the resource in the service. In this case, the clients should read the resource again and obtain a new etag.
