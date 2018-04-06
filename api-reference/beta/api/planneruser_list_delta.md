@@ -2,6 +2,7 @@
 
 > **Important:** APIs under the /beta version in Microsoft Graph are in preview and are subject to change. Use of these APIs in production applications is not supported.
 
+
 Retrieves changes to objects that the user is [subscribed](../resources/planner_overview.md#track-changes--delta--) to.
 
 For a high-level conceptual overview, see [Use delta query to track changes in Microsoft Graph data](../../../concepts/delta_query_overview.md).
